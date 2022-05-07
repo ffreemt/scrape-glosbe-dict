@@ -15,3 +15,8 @@ def test_sanity():
         assert not scrape_glosbe_dict()
     except Exception:
         assert True
+
+
+def test_de2zh():
+    """Test de2zh."""
+    assert "女人" in scrape_glosbe_dict("Frau", "de")

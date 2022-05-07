@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "scrape_glosbe_dict"
+name = "scrape-glosbe-dict"
 version = "0.1.0"
-description = "pack_name descr "
+description = "Scrape glosbe dicts given a head words file"
 authors = ["ffreemt"]
 license = "MIT"
 readme = "README.md"
@@ -12,6 +12,14 @@ python = "^3.8.3"
 logzero = "^1.7.0"
 icecream = "^2.1.1"
 install = "^1.3.5"
+typer = "^0.4.1"
+tenacity = "^8.0.1"
+pyquery = "^1.4.3"
+joblib = "^1.1.0"
+tqdm = "^4.64.0"
+set-loglevel = "^0.1.1"
+httpx = "^0.22.0"
+toml = "^0.10.2"
 
 [tool.poe.executor]
 type = "poetry"
