@@ -1,0 +1,21 @@
+{
+    "dependencies": {
+        "npm-run-all": "^4.1.5"
+    },
+    "scripts": {
+        "start": "pyright && pytest && yarn style",
+        "test": "nodemon -w tests -w scrape_glosbe_dict -x pytest tests",
+        "pyright": "nodemon -w scrape_glosbe_dict -w .venv -e .py -x pyright scrape_glosbe_dict tests",
+        "pytest": "nodemon -w tests -w scrape_glosbe_dict -e .py -x pytest tests scrape_glosbe_dict",
+        "style": "nodemon -w scrape_glosbe_dict -w tests -x \"black tests scrape_glosbe_dict && python -m flake8\"",
+        "docstyle": "nodemon -w scrape_glosbe_dict -w tests -x pydocstyle --convention=google tests scrape_glosbe_dict",
+        "pylint": "nodemon -w scrape_glosbe_dict -e .py -x pylint scrape_glosbe_dict",
+        "test:scrape_glosbe_dict": "nodemon -w tests -e .py -x pytest -k scrape_glosbe_dict tests",
+        "publish": "poetry build && poetry publish",
+        "black": "black tests scrape_glosbe_dict",
+        "flake8": "flake8 tests scrape_glosbe_dict",
+        "pflake8": "pflake8 tests scrape_glosbe_dict",
+        "pep257": "pep257 tests scrape_glosbe_dict",
+        "final": "run-s docstyle black flake8 pytest"
+    }
+}
