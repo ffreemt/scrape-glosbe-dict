@@ -29,6 +29,11 @@ def _version_callback(value: bool) -> None:
 
 @app.command()
 def main(
+    hw_file: str = typer.Argument(
+        ...,
+        metavar="head-word-file",
+        help="Head word file, one word/phrase per line, each will be used to fetch corresponding definitons from https://glosbe.com/.",
+    ),
     from_lang: str = typer.Option(
         "en",
         "--from-lang",
@@ -40,11 +45,6 @@ def main(
         "--to-lang",
         "-t",
         help="Target language, check https://glosbe.com/ for valid value, e.g. https://glosbe.com/en/zh implies to_lang='zh'.",
-    ),
-    hw_file: str = typer.Argument(
-        ...,
-        metavar="head-word-file",
-        help="Head word file, one word/phrase per line, each will be used to fetch corresponding definitons from https://glosbe.com/.",
     ),
     verbose: bool = typer.Option(
         False,
@@ -63,12 +63,17 @@ def main(
         is_eager=True,
     ),
 ):
-    rf"""Scrape a glosbe dict.
+    r"""Scrape a glosbe dict.
 
-
+    Args:
+        hw_file: head word file
+        from_lang: source lang
+        to_lang: dest lang
+        verbose: flag
+        version: show version info
     """
     # logger.info("head word file: %s", hw_file)
-    typer.echo(" head word file: %s" % hw_file)
+    typer.echo(f" head word file: {hw_file}")
     if not Path(hw_file).is_file():
         typer.echo(f" File {hw_file} does not exist or is not a file, exiting... ")
         raise typer.Exit()
@@ -76,7 +81,9 @@ def main(
     _ = cchardet.detect(Path(hw_file).read_bytes())
     encoding = _.get("encoding")
     if encoding is None:
-        typer.echo(f" Can't determine {hw_file}'s encoding, is it a binary file? Make sure you provide a text file.")
+        typer.echo(
+            f" Can't determine {hw_file}'s encoding, is it a binary file? Make sure you provide a text file."
+        )
         raise typer.Exit()
 
     lines = []
@@ -88,7 +95,9 @@ def main(
 
     words = [word.strip() for word in lines if word.strip()]
 
-    typer.echo(f" from_lang: {from_lang}, to_lang: {to_lang}, total no. of head words: {len(words)} ")
+    typer.echo(
+        f" from_lang: {from_lang}, to_lang: {to_lang}, total no. of head words: {len(words)} "
+    )
 
     output = []
     for word in tqdm(words):

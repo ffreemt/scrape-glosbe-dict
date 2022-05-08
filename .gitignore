@@ -141,3 +141,5 @@ cython_debug/
 links/
 # .gitignore
 node_modulesde-zh.tsv
+en-zh.tsv
+.gitignore

@@ -26,7 +26,8 @@ cacheoff = os.environ.get("CACHEOFF", False)
 if "__file__" not in globals():
     __file__ = "temp"
 location = (
-    None if cacheoff else Path("~/.cache/joblib", Path(__file__).stem).expanduser()
+    # None if cacheoff else Path("~/.cache/joblib", Path(__file__).stem).expanduser()
+    None if cacheoff else Path("~/.cache/joblib").expanduser()
 )
 
 # turn on during dev: set VERBOSE=1 or os.environ["VERBOSE"] = "1"
@@ -74,8 +75,11 @@ def scrape_glosbe_dict(
     # machine translation, need to render with playwright or similar
     # mt = doc('.flex-1>.dense').text()
 
+    trlist = []
     try:
         trtext = doc(".translation.dense").text()
+        if trtext:
+            trlist.append(trtext)
     except Exception as e:
         logger.error(e)
         raise
@@ -84,8 +88,10 @@ def scrape_glosbe_dict(
         trtext_lf = doc(
             ".px-2.text-sm.font-medium.less-frequent-translations__list-compact.dense"
         ).text()
+        if trtext_lf:
+            trlist.append(trtext_lf)
     except Exception as e:
         logger.error(e)
         raise
-    _ = f"{trtext}, {trtext_lf}"
-    return _.strip()
+
+    return ", ".join(trlist)
