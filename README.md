@@ -54,4 +54,4 @@ Options:
 
 * A retry mechanism (via pypi `tenacity`) is built-in to fetch info from glosbe. Refer to the source file for details.
 * Local cache (via pypi `joblib`) is used so that you can interrupt anytime and continue later.
-* Scraping is often frowneds upon and sometimes can result in your IP being banned from the website. Use this package at your own discretion.
+* Scraping is often frowned upon and sometimes can result in your IP being banned from the website. Use this package at your own discretion.
