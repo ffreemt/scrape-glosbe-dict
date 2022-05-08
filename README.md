@@ -19,7 +19,7 @@ scrape-glosbe-dict head-word-file  # default english-chinese
 
 # or python -m scrape_glosbe_dict head-word-file
 
-# scrape-glosbe-dict head-word-file -f de # german-chinese
+# scrape-glosbe-dict head-word-file -f de  # german-chinese
 ```
 
 head word file formt: one word/phrase per line, empty lines will be ignored.
@@ -53,5 +53,5 @@ Options:
 ## Miscellany
 
 * A retry mechanism (via pypi `tenacity`) is built-in to fetch info from glosbe. Refer to the source file for details.
-* Local cache (via pypi `joblib`) is used so that you can interrupt anytime and contniue later.
-* Scraping is often frowneds upon and sometimes can result in your IP banned from the website. Use this package at your own discretion.
+* Local cache (via pypi `joblib`) is used so that you can interrupt anytime and continue later.
+* Scraping is often frowneds upon and sometimes can result in your IP being banned from the website. Use this package at your own discretion.
