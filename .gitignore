@@ -140,4 +140,4 @@ cython_debug/
 *.swp
 links/
 # .gitignore
-node_modules
+node_modulesde-zh.tsv
