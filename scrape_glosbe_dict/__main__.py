@@ -8,10 +8,14 @@ import logzero
 import typer
 from logzero import logger
 from set_loglevel import set_loglevel
+from textwrap import dedent
 from tqdm import tqdm
 
 from scrape_glosbe_dict import __version__, scrape_glosbe_dict
+from scrape_glosbe_dict.config import Settings
 
+config = Settings()
+calls, period = config.calls, config.period
 logzero.loglevel(set_loglevel())
 
 app = typer.Typer(
@@ -98,6 +102,16 @@ def main(
     typer.echo(
         f" from_lang: {from_lang}, to_lang: {to_lang}, total no. of head words: {len(words)} "
     )
+
+    typer.echo(f" rate limit: {calls}/{period} s, ({calls/period * 3600} / hr)")
+    rl_info = dedent("""
+        ---
+        | rate limit can be adjusted in .env, e.g.,
+        | SCRAPER_CALLS=50
+        | SCRAPER_PERIOD=800
+        ---
+        """).strip()
+    typer.echo(rl_info)
 
     output = []
     for word in tqdm(words):

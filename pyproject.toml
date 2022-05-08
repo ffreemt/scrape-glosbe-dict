@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scrape-glosbe-dict"
-version = "0.1.0"
+version = "0.1.1"
 description = "Scrape glosbe dicts given a head words file"
 authors = ["ffreemt"]
 license = "MIT"
@@ -21,6 +21,8 @@ set-loglevel = "^0.1.1"
 httpx = "^0.22.0"
 toml = "^0.10.2"
 cchardet = "^2.1.7"
+ratelimit = "^2.2.1"
+pydantic = "^1.9.0"
 
 [tool.poe.executor]
 type = "poetry"

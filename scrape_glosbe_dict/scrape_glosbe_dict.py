@@ -9,6 +9,19 @@ from joblib import Memory
 from logzero import logger
 from pyquery import PyQuery as pq
 from set_loglevel import set_loglevel
+from ratelimit import limits, sleep_and_retry
+
+from scrape_glosbe_dict.config import Settings
+
+# calls = 150
+# fifteen_minutes = 900  # 600/hr
+# period = 900  # 600/hr
+
+config = Settings()
+calls, period = config.calls, config.period
+
+
+_ = """
 from tenacity import (
     retry,
     stop_after_attempt,
@@ -16,6 +29,7 @@ from tenacity import (
     wait_exponential,
     wait_random,
 )
+# """
 
 logzero.loglevel(set_loglevel())
 
@@ -43,12 +57,17 @@ else:
 
 url = "https://glosbe.com/"
 
-
-@memory.cache
+_ = """
 @retry(
     stop=stop_after_delay(120) | stop_after_attempt(20),
     wait=wait_exponential(max=36000) + wait_random(0, 2),
 )
+# """
+
+
+@memory.cache
+@sleep_and_retry
+@limits(calls=calls, period=period)
 def scrape_glosbe_dict(
     word: str,
     from_lang: str = "en",
