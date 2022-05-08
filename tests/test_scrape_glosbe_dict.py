@@ -1,7 +1,6 @@
 """Test scrape_glosbe_dict."""
 # pylint: disable=broad-except
-from scrape_glosbe_dict import __version__
-from scrape_glosbe_dict import scrape_glosbe_dict
+from scrape_glosbe_dict import __version__, scrape_glosbe_dict
 
 
 def test_version():
@@ -12,7 +11,7 @@ def test_version():
 def test_sanity():
     """Check sanity."""
     try:
-        assert not scrape_glosbe_dict()
+        assert not scrape_glosbe_dict("make")
     except Exception:
         assert True
 

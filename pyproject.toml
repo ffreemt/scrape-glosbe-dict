@@ -20,6 +20,7 @@ tqdm = "^4.64.0"
 set-loglevel = "^0.1.1"
 httpx = "^0.22.0"
 toml = "^0.10.2"
+cchardet = "^2.1.7"
 
 [tool.poe.executor]
 type = "poetry"
@@ -27,6 +28,8 @@ type = "poetry"
 [tool.poe.tasks]
 memo = "echo poe test"
 test = "pytest tests"
+testrun = "python -m scrape_glosbe_dict tests/german.dic"
+pyright = "pyright"
 build = "poetry build"
 _publish = "poetry publish"
 release = ["test", "build", "_publish"]

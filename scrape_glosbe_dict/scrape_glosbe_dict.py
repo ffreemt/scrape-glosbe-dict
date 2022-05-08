@@ -25,7 +25,9 @@ cacheoff = os.environ.get("CACHEOFF", False)
 
 if "__file__" not in globals():
     __file__ = "temp"
-location = None if cacheoff else Path("~/.cache/joblib", Path(__file__).stem).expanduser()
+location = (
+    None if cacheoff else Path("~/.cache/joblib", Path(__file__).stem).expanduser()
+)
 
 # turn on during dev: set VERBOSE=1 or os.environ["VERBOSE"] = "1"
 verbose = 0 if not os.environ.get("VERBOSE", False) else 1
@@ -80,10 +82,10 @@ def scrape_glosbe_dict(
 
     try:
         trtext_lf = doc(
-        ".px-2.text-sm.font-medium.less-frequent-translations__list-compact.dense"
+            ".px-2.text-sm.font-medium.less-frequent-translations__list-compact.dense"
         ).text()
     except Exception as e:
         logger.error(e)
         raise
-
-    return f"{trtext} {trtext_lf}".strip()
+    _ = f"{trtext}, {trtext_lf}"
+    return _.strip()
