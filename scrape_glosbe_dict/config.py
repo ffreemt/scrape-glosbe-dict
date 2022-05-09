@@ -10,8 +10,8 @@ from pydantic import BaseSettings, validator
 class Settings(BaseSettings):  # pylint: disable=too-few-public-methods
     """Manage calls and period in secs for ratelimit."""
 
-    calls: float = 100
-    period: float = 900  # 15 min
+    calls: float = 6
+    period: float = 60  # s
 
     class Config:  # pylint: disable=too-few-public-methods
         """Read envs and env."""
@@ -48,7 +48,7 @@ class Settings(BaseSettings):  # pylint: disable=too-few-public-methods
 
         if "calls" in values and values["calls"] / v * 3600 > 400:
             logger.warning(
-                " calls/period (hr) > 400, this will not likely ply well with glosbe, but we let it pass."
+                " calls/period (hr) > 400, this will not likely play well with glosbe, but we let it pass."
             )
 
         return v

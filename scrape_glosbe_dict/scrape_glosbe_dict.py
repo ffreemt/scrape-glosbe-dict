@@ -1,5 +1,6 @@
 """Define scrape_glosbe_dict."""
 # pylint: disable=invalid-name
+
 import os
 from pathlib import Path
 
@@ -10,6 +11,13 @@ from logzero import logger
 from pyquery import PyQuery as pq
 from set_loglevel import set_loglevel
 from ratelimit import limits, sleep_and_retry
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    stop_after_delay,
+    wait_exponential,
+    wait_random,
+)
 
 from scrape_glosbe_dict.config import Settings
 
@@ -19,17 +27,6 @@ from scrape_glosbe_dict.config import Settings
 
 config = Settings()
 calls, period = config.calls, config.period
-
-
-_ = """
-from tenacity import (
-    retry,
-    stop_after_attempt,
-    stop_after_delay,
-    wait_exponential,
-    wait_random,
-)
-# """
 
 logzero.loglevel(set_loglevel())
 
@@ -57,17 +54,14 @@ else:
 
 url = "https://glosbe.com/"
 
-_ = """
-@retry(
-    stop=stop_after_delay(120) | stop_after_attempt(20),
-    wait=wait_exponential(max=36000) + wait_random(0, 2),
-)
-# """
-
 
 @memory.cache
 @sleep_and_retry
 @limits(calls=calls, period=period)
+@retry(
+    stop=stop_after_delay(120) | stop_after_attempt(20),
+    wait=wait_exponential(max=36000) + wait_random(0, 2),
+)
 def scrape_glosbe_dict(
     word: str,
     from_lang: str = "en",
@@ -88,6 +82,10 @@ def scrape_glosbe_dict(
     except Exception as e:
         logger.error(e)
         raise
+
+    if "Human test" in resp.text:
+        logger.error(" Human test/solving the CAPTCHA required...")
+        raise Exception("Human test")
 
     doc = pq(resp.text)
 
